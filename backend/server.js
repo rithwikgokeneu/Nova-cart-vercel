@@ -17,7 +17,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'https://nova-cart-vercel.vercel.app/',
+  origin: process.env.CLIENT_URL || 'https://nova-cart-vercel.vercel.app',
   credentials: true
 }));
 app.use(express.json());
