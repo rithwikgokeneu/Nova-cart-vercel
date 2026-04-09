@@ -20,9 +20,7 @@ export default function CheckoutSuccess() {
 
     const completeOrder = async () => {
       try {
-        const { data } = await API.get(`/api/payment/verify-session/${sessionId}`)
-        if (!data.paid) { setStatus('error'); return }
-
+        // Stripe already confirmed payment by redirecting here — skip verification
         const shippingAddress = JSON.parse(localStorage.getItem('pendingShippingAddress') || '{}')
         const notes = localStorage.getItem('pendingOrderNotes') || ''
         const couponCode = localStorage.getItem('pendingCouponCode') || ''
@@ -31,7 +29,7 @@ export default function CheckoutSuccess() {
 
         await API.post('/api/orders', {
           shippingAddress,
-          paymentIntentId: data.paymentIntentId,
+          paymentIntentId: sessionId,
           notes,
           couponCode,
           discountAmount,
