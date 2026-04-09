@@ -56,4 +56,14 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
+// Keep Railway awake - ping every 14 minutes
+if (process.env.NODE_ENV === 'production') {
+  setInterval(() => {
+    const url = process.env.RAILWAY_STATIC_URL || process.env.API_URL
+    if (url) {
+      require('https').get(url).on('error', () => {})
+    }
+  }, 14 * 60 * 1000)
+}
+
 module.exports = app;
